@@ -45,6 +45,32 @@ public protocol TypedIdentifiable: Identifiable {
   
   associatedtype TypedIdentifierRawValue: Hashable, Sendable
     
+  typealias TypedID = TypedIdentifier<Self>
+  
   var typedID: TypedIdentifier<Self> { get }
   
 }
+
+extension TypedIdentifiable {
+  public var id: TypedID {
+    return typedID
+  }
+}
+
+#if DEBUG
+
+private struct MyIdentifiable: TypedIdentifiable {
+  var id: ObjectIdentifier
+
+  typealias TypedIdentifierRawValue = String
+  
+  var typedID: TypedID {
+    .init("A")
+  }
+}
+
+private func _run(id: MyIdentifiable.TypedID) {
+  id.raw
+}
+
+#endif
