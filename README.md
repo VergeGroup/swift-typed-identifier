@@ -1,16 +1,13 @@
 # Typed Identifier
 
 ```swift
-struct Author: EntityType {
+struct MyIdentifiable: TypedIdentifiable {
+  var id: ObjectIdentifier
 
-  typealias EntityIDRawType = String
-
-  var entityID: EntityID {
-    .init(rawID)
+  typealias TypedIdentifierRawValue = String
+  
+  var typedID: TypedID {
+    .init("A")
   }
-
-  let rawID: String
-
-  var name: String = ""
 }
 ```
