@@ -19,33 +19,35 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-public struct EntityIdentifier<Entity: EntityType> : Hashable, CustomStringConvertible, Sendable {
+@available(*, deprecated, renamed: "TypedIdentifier")
+public typealias EntityIdentifier<Value: TypedIdentifiable> = TypedIdentifier<Value>
 
+public struct TypedIdentifier<Value: TypedIdentifiable> : Hashable, CustomStringConvertible, Sendable {
+  
   public static func == (lhs: Self, rhs: Self) -> Bool {
     lhs.raw == rhs.raw
   }
-
+  
   public func hash(into hasher: inout Hasher) {
     raw.hash(into: &hasher)
   }
-
-  public let raw: Entity.EntityIDRawType
-
-  public init(_ raw: consuming Entity.EntityIDRawType) {
+  
+  public let raw: Value.TypedIdentifierRawValue
+  
+  public init(_ raw: consuming Value.TypedIdentifierRawValue) {
     self.raw = raw
   }
-
+  
   public var description: String {
-    "<\(String(reflecting: Entity.self))>(\(raw))"
+    "<\(String(reflecting: Value.self))>(\(raw))"
   }
 }
 
-/// A protocol describes object is an Entity.
-public protocol EntityType: Equatable, Sendable {
-
-  associatedtype EntityIDRawType: Hashable, Sendable
-
-  var entityID: EntityID { get }
-
-  typealias EntityID = EntityIdentifier<Self>
+/// A type that has an identifier that stores a meta type of itself.
+public protocol TypedIdentifiable: Identifiable {
+  
+  associatedtype TypedIdentifierRawValue: Hashable, Sendable
+    
+  var typedID: TypedIdentifier<Self> { get }
+  
 }
