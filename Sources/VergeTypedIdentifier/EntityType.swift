@@ -19,9 +19,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-@available(*, deprecated, renamed: "TypedIdentifier")
-public typealias EntityIdentifier<Value: TypedIdentifiable> = TypedIdentifier<Value>
-
 public struct TypedIdentifier<Value: TypedIdentifiable> : Hashable, CustomStringConvertible, Sendable {
   
   public static func == (lhs: Self, rhs: Self) -> Bool {
