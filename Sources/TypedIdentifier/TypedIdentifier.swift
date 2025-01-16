@@ -19,7 +19,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-public struct TypedIdentifier<Value: TypedIdentifiable> : Hashable, CustomStringConvertible, Sendable {
+public struct TypedIdentifier<Type, Identifier: Hashable & Sendable> : Hashable, CustomStringConvertible, Sendable {
   
   public static func == (lhs: Self, rhs: Self) -> Bool {
     lhs.raw == rhs.raw
@@ -29,14 +29,14 @@ public struct TypedIdentifier<Value: TypedIdentifiable> : Hashable, CustomString
     raw.hash(into: &hasher)
   }
   
-  public let raw: Value.TypedIdentifierRawValue
+  public let raw: Identifier
   
-  public init(_ raw: consuming Value.TypedIdentifierRawValue) {
+  public init(_ raw: consuming Identifier) {
     self.raw = raw
   }
   
   public var description: String {
-    "<\(String(reflecting: Value.self))>(\(raw))"
+    "<\(String(reflecting: Type.self))>(\(raw))"
   }
 }
 
@@ -45,9 +45,9 @@ public protocol TypedIdentifiable: Identifiable {
   
   associatedtype TypedIdentifierRawValue: Hashable, Sendable
     
-  typealias TypedID = TypedIdentifier<Self>
+  typealias TypedID = TypedIdentifier<Self, TypedIdentifierRawValue>
   
-  var typedID: TypedIdentifier<Self> { get }
+  var typedID: TypedIdentifier<Self, TypedIdentifierRawValue> { get }
   
 }
 
