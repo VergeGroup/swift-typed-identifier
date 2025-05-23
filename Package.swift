@@ -4,7 +4,7 @@
 import PackageDescription
 
 let package = Package(
-  name: "TypedIdentifier",
+  name: "swift-typed-identifier",
   platforms: [
     .iOS(.v13),
     .macOS(.v10_15),
